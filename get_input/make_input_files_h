@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#----------------------------------------------------------------------------------------------------
+
+function MakeOne()
+{
+	local tag="$1"
+	local search="$2"
+
+	# make work directory
+	dir="../$tag"
+	mkdir -p "$dir"
+
+	# get input files
+	input_files=""
+	for f in `eos ls "$eos_dir"|grep "$search"|grep ".root"`
+	do
+		if [ -n "$input_files" ]
+		then
+			input_files="$input_files,\n"
+		fi
+
+		input_files="${input_files}\t\t\"root://eostotem.cern.ch/${eos_dir}/${f}\""
+	done
+
+	# make paramters.h file
+	cat "input_files_template.h" | sed "\
+			s|\$FILES|$input_files|;\
+		" > "$dir/input_files.h"
+}
+
+#----------------------------------------------------------------------------------------------------
+
+eos_dir="/eos/totem/data/ctpps/reconstruction/2017/alignment_run_September/version1"
+
+# run 303649 misses data from 45-210-fr-bt
+MakeOne "DS-xangle-150" "303652"
+
+# run 303657 very short
+MakeOne "DS-xangle-130" "303658"
+
+MakeOne "DS-xangle-110" "303665"
+# run 303676 very short
