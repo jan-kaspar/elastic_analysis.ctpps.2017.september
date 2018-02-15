@@ -7,6 +7,10 @@ void Init_base()
 
 	// list of (sub-)directories with distilled ntuples
 	distilledNtuples.push_back(".");
+
+	// alignment periods
+	anal.alignment_t0 = 121923;		// beginning of the first time-slice
+	anal.alignment_ts = 6000;		// time-slice in s
 }
 
 //----------------------------------------------------------------------------------------------------

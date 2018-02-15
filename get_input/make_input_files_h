@@ -31,7 +31,7 @@ function MakeOne()
 
 #----------------------------------------------------------------------------------------------------
 
-eos_dir="/eos/totem/data/ctpps/reconstruction/2017/alignment_run_September/version1"
+eos_dir="/eos/totem/data/ctpps/reconstruction/2017/alignment_run_September/version3"
 
 # run 303649 misses data from 45-210-fr-bt
 MakeOne "DS-xangle-150" "303652"

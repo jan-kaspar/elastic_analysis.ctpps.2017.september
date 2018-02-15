@@ -434,13 +434,23 @@ int main(int argc, char **argv)
 		if (i == 2) { x_min = -1000E-6; x_max = +1000E-6; y_min = -1000E-6; y_max = 1000E-6; q_max = 500E-6; }
 		if (i == 3) { x_min = -1000E-6; x_max = +1000E-6; y_min = -1.; y_max = 1.; q_max = 2.; }
 		if (i == 4) { x_min = -1000E-6; x_max = +1000E-6; y_min = -1.; y_max = 1.; q_max = 2.; }
-		if (i == 5) { x_min = -3.; x_max = +7.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
-		if (i == 6) { x_min = -3.; x_max = +7.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
 		if (i == 7) { x_min = -1000E-6; x_max = +1000E-6; y_min = -1.; y_max = +1.; q_max = 1000E-3; }
 		if (i == 8) { x_min = -600E-6; x_max = +600E-6; y_min = -4.; y_max = +4.; q_max = 500E-3; }
 
+		if (diagonal == d45b_56t)
+		{
+			if (i == 5) { x_min = +4.; x_max = +6.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
+			if (i == 6) { x_min = -2.; x_max = +0.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
+		}
+
+		if (diagonal == d45t_56b)
+		{
+			if (i == 5) { x_min = -2.; x_max = -0.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
+			if (i == 6) { x_min = +4.; x_max = +6.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
+		}
+
 		// TODO
-		x_min = 0.; x_max = 0.; y_min = 0.; y_max = 0.; q_max = 0.;
+		//x_min = 0.; x_max = 0.; y_min = 0.; y_max = 0.; q_max = 0.;
 		
 		sprintf(name, "h_cq%i", i); sprintf(title, ";cq%i", i); h_cq[i] = new TH1D(name, title, 300, -q_max, +q_max);
 
@@ -848,6 +858,12 @@ int main(int argc, char **argv)
 			//g_ev_num_vs_timestamp->SetPoint(g_ev_num_vs_timestamp->GetN(), ev.timestamp, ev.event_num);
 			//g_tr_num_vs_timestamp->SetPoint(g_tr_num_vs_timestamp->GetN(), ev.timestamp, ev.trigger_num);
 		}
+
+		// apply XY cut
+		if (h_al.L_2_F.x < -2.0 || h_al.L_2_F.x > +2.0 || h_al.L_2_F.y < -2.0 || h_al.L_2_F.y > +6.0) continue;
+		if (h_al.L_1_F.x < -1.5 || h_al.L_1_F.x > +2.5 || h_al.L_1_F.y < -2.0 || h_al.L_1_F.y > +8.0) continue;
+		if (h_al.R_1_F.x < -2.0 || h_al.R_1_F.x > +2.5 || h_al.R_1_F.y < -2.0 || h_al.R_1_F.y > +7.0) continue;
+		if (h_al.R_2_F.x < -1.0 || h_al.R_2_F.x > +3.0 || h_al.R_2_F.y < -2.0 || h_al.R_2_F.y > +6.5) continue;
 
 		// run reconstruction
 		Kinematics k = DoReconstruction(h_al, env);
@@ -1813,8 +1829,7 @@ int main(int argc, char **argv)
 		c->SetLogz(1);
 		h2_cq_full[ci]->Draw("colz");
 
-		double lim = h2_cq_full[ci]->GetXaxis()->GetXmax();
-		double qa[2] = {-lim, +lim};
+		double qa[2] = { h2_cq_full[ci]->GetXaxis()->GetXmin(), h2_cq_full[ci]->GetXaxis()->GetXmax() };
 		double qbp[2]= {(+anal.n_si*anal.csi[ci] - anal.cca[ci]*qa[0] - anal.ccc[ci])/anal.ccb[ci],
 			(+anal.n_si*anal.csi[ci] - anal.cca[ci]*qa[1] - anal.ccc[ci])/anal.ccb[ci]};
 		double qbm[2]= {(-anal.n_si*anal.csi[ci] - anal.cca[ci]*qa[0] - anal.ccc[ci])/anal.ccb[ci],

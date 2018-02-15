@@ -4,6 +4,7 @@
 *.root
 *.log*
 *.pdf
+*.out
 
 .*
 !.gitignore

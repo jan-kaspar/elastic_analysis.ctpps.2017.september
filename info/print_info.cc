@@ -10,9 +10,9 @@ using namespace std;
 int main()
 {
 	vector<string> datasets = {
-		"DS-cr-angle120",
-		"DS-cr-angle130",
-		"DS-cr-angle140",
+		"DS-xangle-110",
+		"DS-xangle-130",
+		"DS-xangle-150",
 	};
 
 	vector<string> diagonals = {
