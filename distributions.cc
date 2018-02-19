@@ -270,10 +270,8 @@ int main(int argc, char **argv)
 	printf("\n\n");
 	
 	// binnings
-	// TODO
 	vector<string> binnings;
 	binnings.push_back("ub");
-	binnings.push_back("eb");
 
 	// get input
 	TChain *ch_in = new TChain("distilled");
@@ -448,6 +446,10 @@ int main(int argc, char **argv)
 			if (i == 5) { x_min = -2.; x_max = -0.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
 			if (i == 6) { x_min = +4.; x_max = +6.; y_min = -1.5; y_max = 1.5; q_max = 1000E-3; }
 		}
+
+		// TODO
+			if (i == 5) { x_min = 0.; x_max = -0.; y_min = 0; y_max = 0; q_max = 1000E-3; }
+			if (i == 6) { x_min = 0.; x_max = 0.; y_min = 0; y_max = 0; q_max = 1000E-3; }
 
 		// TODO
 		//x_min = 0.; x_max = 0.; y_min = 0.; y_max = 0.; q_max = 0.;
@@ -860,47 +862,13 @@ int main(int argc, char **argv)
 		}
 
 		// apply XY cut
-		if (h_al.L_2_F.x < -2.0 || h_al.L_2_F.x > +2.0 || h_al.L_2_F.y < -2.0 || h_al.L_2_F.y > +6.0) continue;
-		if (h_al.L_1_F.x < -1.5 || h_al.L_1_F.x > +2.5 || h_al.L_1_F.y < -2.0 || h_al.L_1_F.y > +8.0) continue;
-		if (h_al.R_1_F.x < -2.0 || h_al.R_1_F.x > +2.5 || h_al.R_1_F.y < -2.0 || h_al.R_1_F.y > +7.0) continue;
-		if (h_al.R_2_F.x < -1.0 || h_al.R_2_F.x > +3.0 || h_al.R_2_F.y < -2.0 || h_al.R_2_F.y > +6.5) continue;
+		if (h_al.L_2_F.x < -2 || h_al.L_2_F.x > +2 || h_al.L_2_F.y < -6 || h_al.L_2_F.y > +6) continue;
+		if (h_al.L_1_F.x < -2 || h_al.L_1_F.x > +2 || h_al.L_1_F.y < -6 || h_al.L_1_F.y > +6) continue;
+		if (h_al.R_1_F.x < -2 || h_al.R_1_F.x > +2 || h_al.R_1_F.y < -6 || h_al.R_1_F.y > +6) continue;
+		if (h_al.R_2_F.x < -2 || h_al.R_2_F.x > +2 || h_al.R_2_F.y < -6 || h_al.R_2_F.y > +6) continue;
 
 		// run reconstruction
 		Kinematics k = DoReconstruction(h_al, env);
-
-		/*
-		printf("------------------ event %i --------------\n", ev_idx);
-		printf("th_x_L = %E, th_x_R = %E, th_x = %E\n", k.th_x_L, k.th_x_R, k.th_x);
-		printf("th_y_L = %E, th_y_R = %E, th_y = %E\n", k.th_y_L, k.th_y_R, k.th_y);
-		printf("L_2_F: x / L_x = %E\n", h_al.L_2_F.x / env.L_x_L_2_F);
-		printf("L_2_F: x / L_x = %E\n", h_al.L_2_F.x / env.L_x_L_2_F);
-		printf("R_2_F: x / L_x = %E\n", h_al.R_2_F.x / env.L_x_R_2_F);
-		printf("R_2_F: x / L_x = %E\n", h_al.R_2_F.x / env.L_x_R_2_F);
-		*/
-
-		// alternative theta_x reconstruction
-		/*
-		// this is used in the old 90m analysis (for the PRL publication)
-		double ta_x = (h_al.x_R_F - h_al.x_R_N - h_al.x_L_F + h_al.x_L_N) / (env.L_x_R_F - env.L_x_R_N) / 2.;
-		*/
-
-		// alternative theta_y reconstruction
-		/*
-		double D_y_L = - env.L_y_L_N * env.v_y_L_F + env.L_y_L_F * env.v_y_L_N;
-		double ta_y_L = (env.v_y_L_F * h_al.y_L_N - env.v_y_L_N * h_al.y_L_F) / D_y_L;
-	
-		double D_y_R = env.L_y_R_N * env.v_y_R_F - env.L_y_R_F * env.v_y_R_N;
-		double ta_y_R = (env.v_y_R_F * h_al.y_R_N - env.v_y_R_N * h_al.y_R_F) / D_y_R;
-
-		double ta_y = (ta_y_L + ta_y_R) / 2.;
-		*/
-
-		// hit-map cuts
-		if (h_al.L_2_F.x < -6 || h_al.L_2_F.x > +6|| fabs(h_al.L_2_F.y) > 50)
-			continue;
-
-		if (h_al.R_2_F.x < -6 || h_al.R_2_F.x > +6|| fabs(h_al.R_2_F.y) > 50)
-			continue;
 
 		// cut evaluation
 		CutData cd;

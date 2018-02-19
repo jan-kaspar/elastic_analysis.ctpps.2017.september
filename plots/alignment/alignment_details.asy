@@ -38,7 +38,7 @@ for (int dsi : datasets.keys)
 		draw(RootGetObject(topDir+dataset+"/alignment.root", period + "/unit "+units[ui]+"/horizontal/horizontal profile/p"), "d0,eb", blue);
 		draw(RootGetObject(topDir+dataset+"/alignment.root", period + "/unit "+units[ui]+"/horizontal/horizontal profile/p|ff"), "l", red+1pt);
 
-		limits((-3, -1), (+7, 2), Crop);
+		limits((-6, -2), (+6, 2), Crop);
 		AttachLegend(unit_labels[ui], NE, NE);
 	}
 }

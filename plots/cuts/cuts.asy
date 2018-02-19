@@ -7,8 +7,8 @@ TH2_palette = Gradient(blue, heavygreen, yellow, red);
 
 string datasets[] = {
 	"DS-xangle-110",
-	"DS-xangle-130",
-	"DS-xangle-150",
+//	"DS-xangle-130",
+//	"DS-xangle-150",
 };
 
 string dgns[] = { "45b_56t", "45t_56b" };
